@@ -26,12 +26,12 @@ void ProcessFile::ProcessLine(const std::string &line) {
   std::string text;
 
   // Use regex to split date&time - user - message
-  std::regex re("(.*)\\-(.*)\\:(.*)");
+  std::regex re("^(.*\\-)([^:]*)(.*)");
   std::smatch match;
   if (std::regex_search(line, match, re) && match.size() > 1) {
-    dateTime = match.str(1);
-    name = match.str(2);
-    text = match.str(3);
+    dateTime = match.str(0);
+    name = match.str(1);
+    text = match.str(2);
   }
 
   StoreName(name);
