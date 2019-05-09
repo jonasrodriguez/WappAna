@@ -25,16 +25,27 @@ void ProcessFile::ProcessLine(const std::string &line) {
   std::string name;
   std::string text;
 
-  // Use regex to split date&time - user - message
-  std::regex re("^(.*\\-)([^:]*)(.*)");
-  std::smatch match;
-  if (std::regex_search(line, match, re) && match.size() > 1) {
-    dateTime = match.str(0);
-    name = match.str(1);
-    text = match.str(2);
-  }
+  size_t datePos = line.find_first_of("-");
+  dateTime = line.substr(0, datePos);
 
-  StoreName(name);
+  size_t namePos = line.find_first_of(":", datePos);
+  if (datePos >= namePos) {
+    std::cout << line << std::endl;
+    return;
+  }
+  name = line.substr(datePos, namePos);
+  //  std::cout << dateTime << "-" << name << std::endl;
+
+  //  // Use regex to split date&time - user - message
+  //  std::regex re("^(.*\\-)([^:]*)(.*)");
+  //  std::smatch match;
+  //  if (std::regex_search(line, match, re) && match.size() > 1) {
+  //    dateTime = match.str(0);
+  //    name = match.str(1);
+  //    text = match.str(2);
+  //  }
+
+  //  StoreName(name);
 }
 
 void ProcessFile::StoreName(const std::string &name) {
